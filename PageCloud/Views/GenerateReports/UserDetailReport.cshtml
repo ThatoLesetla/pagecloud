@@ -1,0 +1,156 @@
+﻿@model IEnumerable<PageCloud.Models.User>
+
+@{
+    ViewBag.Title = "UserDetailReport";
+}
+
+<h2>UserDetailReport</h2>
+
+
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+        <div class="panel-heading" style="margin-bottom: 30px;">
+            <b>User Report</b>
+
+        </div>
+
+        <div class="form-group">
+            <b>Filter by date: </b>
+            @using (Html.BeginForm("UserDetailReport", "GenerateReports", FormMethod.Post))
+            {
+                <div class="col-md-3">
+                    <input type="date" name="From_Date" id="From_Date" class="form-control" required/>
+                </div>
+
+                <div class="col-md-3">
+                    <input type="date" name="to_Date" id="to_Date" class="form-control" required=""/>
+                </div>
+                <div class="col-md-3">
+                    <input type="submit" value="filter" class="btn btn-primary" />
+                </div>
+            }
+
+          
+        </div>
+        <br />
+        <div style="padding-left: 10px; margin-top: 20px;">
+            @Html.ActionLink("Word", "DetailReport", new { ReportType = "Word" }) |
+            @Html.ActionLink("Excel", "DetailReport", new { ReportType = "Excel" }) |
+            @Html.ActionLink("PDF", "DetailReport", new { ReportType = "PDF" })
+
+            <br />
+            <b>Date of birth:</b>
+            <input type="date" name="dob" id="dob" class="form-control" style="width: 150px;"/>
+
+            <div class="table-responsive" style="margin-top: 10px;">
+                <table class="table" id="tableData">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.userName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.userSurname)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.userEmail)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.registerDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.phone)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.userAddress)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.city)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.postalCode)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.idno)
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.userName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.userSurname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.userEmail)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.registerDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.phone)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.userAddress)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.city)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.postalCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.idno)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/AddOns/dataTables/js/jquery.dataTables.min.js"></script>
+<script src="~/AddOns/dataTables/js/dataTables.bootstrap.min.js"></script>
+<script>
+    $('#tableData').dataTable();
+
+    $(document).ready(function () {
+        $.datepicker.setDefaults({
+            dateFormat: 'yy-mm-dd'
+        });
+
+        $(function () {
+            $('#from_date').datepicker();
+            $('#to_date').datepicer();
+        });
+
+        $('#filter').click(function () {
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+
+            if (from_date != '' && to_date != '') {
+                $.ajax({
+                    url: "/GenerateReports/UserDetailReport",
+                    method: "POST",
+                    //data: (
+                    //    from_date: from_date,
+                    //    to_date: to_date
+                    //),
+                    success: function (data) {
+                        $('#tableDate').html(data);
+                    }
+                })
+            } else {
+                alert("Please Select Date");
+            }
+        })
+    })
+</script>

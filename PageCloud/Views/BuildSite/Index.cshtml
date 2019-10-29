@@ -1,0 +1,127 @@
+﻿@{
+    Layout = null;
+}
+
+@model PageCloud.Models.Domain
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>PageCloud | Build</title>
+    <link rel="stylesheet" href="~/dist/css/grapes.min.css">
+    <script src="~/dist/grapes.min.js"></script>
+    <link rel="stylesheet" href="~/dist/css/Style.css">
+</head>
+
+<body>
+    <div id="gjs" style="height:0px; overflow:hidden;">
+        <div class="panel">
+            <h1 class="welcome">@Model.domainName</h1>
+            <div class="big-title">
+
+                <span>PageCloud</span>
+            </div>
+            <div class="description">
+                This is a empty template that can be used to kick start your website. Start editing this page to your needs and publish to your registered domain name.
+            </div>
+        </div>
+        <style>
+            .panel {
+                width: 90%;
+                max-width: 700px;
+                border-radius: 3px;
+                padding: 30px 20px;
+                margin: 150px auto 0px;
+                background-color: #d983a6;
+                box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25);
+                color: rgba(255, 255, 255, 0.75);
+                font: caption;
+                font-weight: 100;
+            }
+
+            .welcome {
+                text-align: center;
+                font-weight: 100;
+                margin: 0px;
+            }
+
+            .logo {
+                width: 70px;
+                height: 70px;
+                vertical-align: middle;
+            }
+
+                .logo path {
+                    pointer-events: none;
+                    fill: none;
+                    stroke-linecap: round;
+                    stroke-width: 7;
+                    stroke: #fff
+                }
+
+            .big-title {
+                text-align: center;
+                font-size: 3.5rem;
+                margin: 15px 0;
+            }
+
+            .description {
+                text-align: justify;
+                font-size: 1rem;
+                line-height: 1.5rem;
+            }
+        </style>
+    </div>
+
+    <script type="text/javascript">
+        var editor = grapesjs.init({
+            showOffsets: 1,
+            noticeOnUnload: 0,
+            container: '#gjs',
+            height: '100%',
+            fromElement: true,
+            storageManager: {
+                autoload: 0
+            },
+            styleManager: {
+                sectors: [{
+                    name: 'General',
+                    open: false,
+                    buildProps: ['float', 'display', 'position', 'top', 'right', 'left', 'bottom']
+                }, {
+                    name: 'Flex',
+                    open: false,
+                    buildProps: ['flex-direction', 'flex-wrap', 'justify-content', 'align-items', 'align-content', 'order', 'flex-basis', 'flex-grow', 'flex-shrink', 'align-self']
+                }, {
+                    name: 'Dimension',
+                    open: false,
+                    buildProps: ['width', 'height', 'max-width', 'min-height', 'margin', 'padding'],
+                }, {
+                    name: 'Typography',
+                    open: false,
+                    buildProps: ['font-family', 'font-size', 'font-weight', 'letter-spacing', 'color', 'line-height', 'text-shadow'],
+                }, {
+                    name: 'Decorations',
+                    open: false,
+                    buildProps: ['border-radius-c', 'background-color', 'border-radius', 'border', 'box-shadow', 'background'],
+                }, {
+                    name: 'Extra',
+                    open: false,
+                    buildProps: ['transition', 'perspective', 'transform'],
+                }],
+            },
+        });
+
+        editor.BlockManager.add('testBlock', {
+            label: 'div',
+            attributes: {
+                class: 'gjs-fonts gjs-f-b1'
+            },
+            content: `<div style="padding-top:50px; padding-bottom:50px; text-align:center">Test block</div>`
+        })
+    </script>
+</body>
+
+</html>

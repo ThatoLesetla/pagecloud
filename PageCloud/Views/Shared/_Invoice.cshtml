@@ -1,0 +1,43 @@
+﻿@model IEnumerable<PageCloud.Models.Invoice>
+
+
+<table style="border: 1px solid black; background-color:silver" class="table" >
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.invoiceDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dueDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.invoiceStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Domain.domainName)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.invoiceDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dueDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.total)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.invoiceStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Domain.domainName)
+        </td>
+    </tr>
+}
+
+</table>

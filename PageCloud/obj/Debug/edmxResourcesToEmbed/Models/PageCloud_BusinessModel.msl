@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PageCloudModelStoreContainer" CdmEntityContainer="PageCloudEntities">
+    <EntitySetMapping Name="Notifications">
+      <EntityTypeMapping TypeName="PageCloudModel.Notification">
+        <MappingFragment StoreEntitySet="Notifications">
+          <ScalarProperty Name="notificationId" ColumnName="notificationId" />
+          <ScalarProperty Name="notificationBody" ColumnName="notificationBody" />
+          <ScalarProperty Name="notificationDate" ColumnName="notificationDate" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="PageCloudModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Domains">
+      <EntityTypeMapping TypeName="PageCloudModel.Domain">
+        <MappingFragment StoreEntitySet="Domain">
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="domainID" ColumnName="domainID" />
+          <ScalarProperty Name="websiteStatus" ColumnName="websiteStatus" />
+          <ScalarProperty Name="paymentMethod" ColumnName="paymentMethod" />
+          <ScalarProperty Name="registrationDate" ColumnName="registrationDate" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
+          <ScalarProperty Name="domainName" ColumnName="domainName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Invoices">
+      <EntityTypeMapping TypeName="PageCloudModel.Invoice">
+        <MappingFragment StoreEntitySet="Invoice">
+          <ScalarProperty Name="domainID" ColumnName="domainID" />
+          <ScalarProperty Name="invoiceStatus" ColumnName="invoiceStatus" />
+          <ScalarProperty Name="total" ColumnName="total" />
+          <ScalarProperty Name="dueDate" ColumnName="dueDate" />
+          <ScalarProperty Name="invoiceDate" ColumnName="invoiceDate" />
+          <ScalarProperty Name="taxInvoice" ColumnName="taxInvoice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_Insert_User" FunctionName="PageCloudModel.Store.SP_Insert_User" />
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="PageCloudModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="userRole" ColumnName="userRole" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="idno" ColumnName="idno" />
+          <ScalarProperty Name="postalCode" ColumnName="postalCode" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="userAddress" ColumnName="userAddress" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="registerDate" ColumnName="registerDate" />
+          <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+          <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+          <ScalarProperty Name="userSurname" ColumnName="userSurname" />
+          <ScalarProperty Name="userName" ColumnName="userName" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

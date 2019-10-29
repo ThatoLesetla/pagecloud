@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PageCloudModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Domain">
+          <Key>
+            <PropertyRef Name="domainID" />
+          </Key>
+          <Property Name="domainName" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="userID" Type="int" />
+          <Property Name="registrationDate" Type="datetime" />
+          <Property Name="paymentMethod" Type="varchar" MaxLength="15" />
+          <Property Name="websiteStatus" Type="varchar" MaxLength="15" />
+          <Property Name="domainID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'PageCloud.dbo.Hosting' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Hosting">
+          <Property Name="packageCode" Type="varchar" MaxLength="4" />
+          <Property Name="packageName" Type="varchar" MaxLength="25" />
+          <Property Name="trafficAmount" Type="varchar" MaxLength="30" />
+          <Property Name="totalDomains" Type="int" />
+          <Property Name="storageSize" Type="int" />
+          <Property Name="databaseSize" Type="int" />
+          <Property Name="websiteBuilder" Type="bit" />
+          <Property Name="price" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="cpanel" Type="bit" />
+        </EntityType>-->
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="taxInvoice" />
+          </Key>
+          <Property Name="taxInvoice" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="invoiceDate" Type="datetime" />
+          <Property Name="dueDate" Type="date" />
+          <Property Name="total" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="invoiceStatus" Type="bit" />
+          <Property Name="domainID" Type="int" />
+        </EntityType>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="notificationId" />
+          </Key>
+          <Property Name="notificationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="notificationBody" Type="varchar" MaxLength="80" />
+          <Property Name="notificationDate" Type="datetime" />
+          <Property Name="userId" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userName" Type="varchar" MaxLength="30" />
+          <Property Name="userSurname" Type="varchar" MaxLength="30" />
+          <Property Name="userEmail" Type="varchar" MaxLength="40" />
+          <Property Name="userPassword" Type="varchar" MaxLength="40" />
+          <Property Name="registerDate" Type="datetime" />
+          <Property Name="phone" Type="varchar" MaxLength="10" />
+          <Property Name="userAddress" Type="varchar" MaxLength="35" />
+          <Property Name="city" Type="varchar" MaxLength="25" />
+          <Property Name="postalCode" Type="varchar" MaxLength="4" />
+          <Property Name="idno" Type="varchar" MaxLength="13" />
+          <Property Name="gender" Type="varchar" MaxLength="13" />
+          <Property Name="userRole" Type="varchar" MaxLength="8" />
+          <Property Name="isDeleted" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Domain_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Domain" Type="Self.Domain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Domain">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Domain">
+          <End Role="Domain" Type="Self.Domain" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="domainID" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="domainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notifications_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Notifications">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="SP_Insert_User" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userName" Type="varchar" Mode="In" />
+          <Parameter Name="userSurname" Type="varchar" Mode="In" />
+          <Parameter Name="userEmail" Type="varchar" Mode="In" />
+          <Parameter Name="userPassword" Type="varchar" Mode="In" />
+          <Parameter Name="registerDate" Type="datetime" Mode="In" />
+          <Parameter Name="phone" Type="varchar" Mode="In" />
+          <Parameter Name="userAddress" Type="varchar" Mode="In" />
+          <Parameter Name="city" Type="varchar" Mode="In" />
+          <Parameter Name="postalCode" Type="varchar" Mode="In" />
+          <Parameter Name="idno" Type="varchar" Mode="In" />
+          <Parameter Name="gender" Type="varchar" Mode="In" />
+          <Parameter Name="userRole" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="PageCloudModelStoreContainer">
+          <EntitySet Name="Domain" EntityType="Self.Domain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Domain_Users" Association="Self.FK_Domain_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Domain" EntitySet="Domain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Domain" Association="Self.FK_Invoice_Domain">
+            <End Role="Domain" EntitySet="Domain" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifications_Users" Association="Self.FK_Notifications_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Notifications" EntitySet="Notifications" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PageCloudModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="notificationId" />
+          </Key>
+          <Property Name="notificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="notificationBody" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="notificationDate" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="PageCloudModel.FK_Notifications_Users" FromRole="Notification" ToRole="User" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityContainer Name="PageCloudEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Notifications" EntityType="Self.Notification" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Domains" EntityType="PageCloudModel.Domain" />
+          <EntitySet Name="Invoices" EntityType="PageCloudModel.Invoice" />
+          <AssociationSet Name="FK_Invoice_Domain" Association="PageCloudModel.FK_Invoice_Domain">
+            <End Role="Domain" EntitySet="Domains" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <FunctionImport Name="SP_Insert_User">
+            <Parameter Name="userName" Mode="In" Type="String" />
+            <Parameter Name="userSurname" Mode="In" Type="String" />
+            <Parameter Name="userEmail" Mode="In" Type="String" />
+            <Parameter Name="userPassword" Mode="In" Type="String" />
+            <Parameter Name="registerDate" Mode="In" Type="DateTime" />
+            <Parameter Name="phone" Mode="In" Type="String" />
+            <Parameter Name="userAddress" Mode="In" Type="String" />
+            <Parameter Name="city" Mode="In" Type="String" />
+            <Parameter Name="postalCode" Mode="In" Type="String" />
+            <Parameter Name="idno" Mode="In" Type="String" />
+            <Parameter Name="gender" Mode="In" Type="String" />
+            <Parameter Name="userRole" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Users" EntityType="PageCloudModel.User" />
+          <AssociationSet Name="FK_Domain_Users" Association="PageCloudModel.FK_Domain_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Domain" EntitySet="Domains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifications_Users" Association="PageCloudModel.FK_Notifications_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Domain">
+          <Key>
+            <PropertyRef Name="domainID" />
+          </Key>
+          <Property Name="domainName" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="userID" Type="Int32" />
+          <Property Name="registrationDate" Type="DateTime" Precision="3" />
+          <Property Name="paymentMethod" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="websiteStatus" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="domainID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Invoices" Relationship="PageCloudModel.FK_Invoice_Domain" FromRole="Domain" ToRole="Invoice" />
+          <Property Name="isDeleted" Type="Boolean" />
+          <NavigationProperty Name="User" Relationship="PageCloudModel.FK_Domain_Users" FromRole="Domain" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="taxInvoice" />
+          </Key>
+          <Property Name="taxInvoice" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="invoiceDate" Type="DateTime" Precision="3" />
+          <Property Name="dueDate" Type="DateTime" Precision="0" />
+          <Property Name="total" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="invoiceStatus" Type="Boolean" />
+          <Property Name="domainID" Type="Int32" />
+          <NavigationProperty Name="Domain" Relationship="PageCloudModel.FK_Invoice_Domain" FromRole="Invoice" ToRole="Domain" />
+        </EntityType>
+        <Association Name="FK_Invoice_Domain">
+          <End Type="PageCloudModel.Domain" Role="Domain" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PageCloudModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="domainID" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="domainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="userSurname" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="userEmail" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="userPassword" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="registerDate" Type="DateTime" Precision="3" />
+          <Property Name="phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="userAddress" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="postalCode" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="idno" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="userRole" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="isDeleted" Type="Boolean" />
+          <NavigationProperty Name="Domains" Relationship="PageCloudModel.FK_Domain_Users" FromRole="User" ToRole="Domain" />
+          <NavigationProperty Name="Notifications" Relationship="PageCloudModel.FK_Notifications_Users" FromRole="User" ToRole="Notification" />
+        </EntityType>
+        <Association Name="FK_Domain_Users">
+          <End Type="PageCloudModel.User" Role="User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PageCloudModel.Domain" Role="Domain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Domain">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notifications_Users">
+          <End Type="PageCloudModel.User" Role="User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PageCloudModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PageCloudModelStoreContainer" CdmEntityContainer="PageCloudEntities">
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="PageCloudModel.Notification">
+              <MappingFragment StoreEntitySet="Notifications">
+                <ScalarProperty Name="notificationId" ColumnName="notificationId" />
+                <ScalarProperty Name="notificationBody" ColumnName="notificationBody" />
+                <ScalarProperty Name="notificationDate" ColumnName="notificationDate" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="PageCloudModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Domains">
+            <EntityTypeMapping TypeName="PageCloudModel.Domain">
+              <MappingFragment StoreEntitySet="Domain">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="domainID" ColumnName="domainID" />
+                <ScalarProperty Name="websiteStatus" ColumnName="websiteStatus" />
+                <ScalarProperty Name="paymentMethod" ColumnName="paymentMethod" />
+                <ScalarProperty Name="registrationDate" ColumnName="registrationDate" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="domainName" ColumnName="domainName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="PageCloudModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="domainID" ColumnName="domainID" />
+                <ScalarProperty Name="invoiceStatus" ColumnName="invoiceStatus" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="dueDate" ColumnName="dueDate" />
+                <ScalarProperty Name="invoiceDate" ColumnName="invoiceDate" />
+                <ScalarProperty Name="taxInvoice" ColumnName="taxInvoice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Insert_User" FunctionName="PageCloudModel.Store.SP_Insert_User" />
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="PageCloudModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="userRole" ColumnName="userRole" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="idno" ColumnName="idno" />
+                <ScalarProperty Name="postalCode" ColumnName="postalCode" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="userAddress" ColumnName="userAddress" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="registerDate" ColumnName="registerDate" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userSurname" ColumnName="userSurname" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

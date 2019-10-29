@@ -1,0 +1,17 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+    Layout = null;
+}
+
+    <div class="eror-w3">
+        <div class="agile-info">
+            <h3>SORRY</h3>
+            <h2>404</h2>
+            <p>An error Occurred in the Application</p>
+            <h4 class="text-danger">@ViewBag.Error</h4>
+            <br />
+            <a href="/Home/Index">go home</a>
+        </div>
+    </div>

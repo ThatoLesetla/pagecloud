@@ -1,0 +1,119 @@
+﻿@model IEnumerable<PageCloud.Models.Domain>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Domains
+        </div>
+        <div class="row w3-res-tb">
+            <div class="col-sm-5 m-b-xs">
+                <select class="input-sm form-control w-sm inline v-middle">
+                    <option value="0">Bulk action</option>
+                    <option value="1">Delete selected</option>
+                    <option value="2">Bulk edit</option>
+                    <option value="3">Export</option>
+                </select>
+                <button class="btn btn-sm btn-default">Apply</button>
+
+                <div style="margin-top: 15px;">
+                    <select class="input-sm form-control w-sm inline v-middle" id="websiteStatus">
+                        <option value="active">Active Websites</option>
+                        <option value="inactive">Inactive Websites</option>
+                    </select>
+                </div>
+            </div>
+       
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <input type="text" class="input-sm form-control" placeholder="Search">
+                    <span class="input-group-btn">
+                        <button class="btn btn-sm btn-default" type="button">Go!</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light">
+                <thead>
+                    <tr>
+                        <th style="width:20px;">
+                            <label class="i-checks m-b-none">
+                                <input type="checkbox"><i></i>
+                            </label>
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.domainName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.paymentMethod)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.registrationDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.websiteStatus)
+                        </th>
+                        <th>Action</th>
+                        <th style="width:30px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.domainName)
+                        </td>
+                        <td><span class="text-ellipsis">@Html.DisplayFor(modelItem => item.paymentMethod)</span></td>
+                        <td><span class="text-ellipsis">@Html.DisplayFor(modelItem => item.registrationDate)</span></td>
+                        <td>@Html.DisplayFor(modelItem  => item.websiteStatus)</td>
+                        <td>
+                            @*<a href="" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a>*@
+                            <a class="btn btn-primary" href="/BuildSite/Index/@item.domainID">View Site</a>
+                            <a class="btn btn-warning" href="/Domains/Edit/@item.domainID">Edit</a>
+                            <a class="btn btn-danger" href="/Domains/Delete/@item.domainID">Delete</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <footer class="panel-footer">
+        </footer>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#websiteStatus').change(function () {
+
+            var selectedStatus = $('#websiteStatus').val();
+
+            var domainTable = document.getElementsByTagName('tbody')[0];
+            var tableRows = domainTable.getElementsByTagName('tr');
+
+            $('tr').show();
+            
+           
+            for (var i = 0; i < tableRows.length; i++) {
+
+                let row = tableRows[i];
+                let statusCol = row.getElementsByTagName('td')[4];
+                console.log(statusCol);
+                if (selectedStatus != statusCol.innerHTML) {
+                    $(row).hide();
+                } 
+                
+            }
+          
+        });
+    })
+</script>

@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Invoices</h2>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+
+
+@Ajax.ActionLink("All", "All",  new AjaxOptions()
+{
+        HttpMethod = "GET",
+        UpdateTargetId = "divInvoices",
+        InsertionMode = InsertionMode.Replace 
+})
+
+<div id="divInvoices">
+     
+</div>
+

@@ -1,0 +1,69 @@
+﻿@model PageCloud.Models.SummaryReport
+@{
+    ViewBag.Title = "SummaryReport";
+}
+
+
+
+
+    <section class="wrapper">
+        <div class="typo-agile">
+            <h2 class="w3ls_head">Summary Report</h2>
+            <div class="grid_3 grid_4 w3layouts">
+                <h3 class="hdg">User Statistics</h3>
+                <div class="bs-example">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><h4 id="h4.-bootstrap-heading">@Html.DisplayNameFor(a => a.userStatistics.totalUsers)<a class="anchorjs-link" href="#h4.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h4></td>
+                                <td class="type-info">@Html.DisplayFor(a => a.userStatistics.totalUsers)</td>
+                            </tr>
+                            <tr>
+                                <td><h4 id="h4.-bootstrap-heading">@Html.DisplayNameFor(a => a.userStatistics.totalDomains)<a class="anchorjs-link" href="#h4.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h4></td>
+                                <td class="type-info">@Html.DisplayFor(a => a.userStatistics.totalDomains)</td>
+                            </tr>
+                            <tr>
+                                <td><h4 id="h4.-bootstrap-heading">@Html.DisplayNameFor(a => a.userStatistics.activeDomains)<a class="anchorjs-link" href="#h4.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h4></td>
+                                <td class="type-info">@Html.DisplayFor(a => a.userStatistics.activeDomains)</td>
+                            </tr>
+                            <tr>
+                                <td><h4 id="h4.-bootstrap-heading">@Html.DisplayNameFor(a => a.userStatistics.inactiveDomains)<a class="anchorjs-link" href="#h4.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h4></td>
+                                <td class="type-info">@Html.DisplayFor(a => a.userStatistics.inactiveDomains)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid_3 grid_4 w3layouts">
+                <h3 class="hdg">Profit Summary</h3>
+                <div class="bs-example">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><h4 id="h4.-bootstrap-heading">@Html.DisplayNameFor(a => a.profit.grossRegistrationIncome)<a class="anchorjs-link" href="#h4.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h4></td>
+                                <td class="type-info">R @Html.DisplayFor(a => a.profit.grossRegistrationIncome)</td>
+                            </tr>
+                            <tr>
+                                <td><h4 id="h4.-bootstrap-heading">@Html.DisplayNameFor(a => a.profit.grossMonthlyFeeIncome)<a class="anchorjs-link" href="#h4.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h4></td>
+                                <td class="type-info">@Html.DisplayFor(a => a.profit.grossMonthlyFeeIncome)</td>
+                            </tr>
+                            <tr>
+                                <td><h4 id="h4.-bootstrap-heading">@Html.DisplayNameFor(a => a.profit.highestSellingMonth)<a class="anchorjs-link" href="#h4.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h4></td>
+                                <td class="type-info">@Html.DisplayFor(a => a.profit.highestSellingMonth)</td>
+                            </tr>
+                            <tr>
+                                <td><h4 id="h4.-bootstrap-heading">@Html.DisplayNameFor(a => a.profit.grossMonthSales)<a class="anchorjs-link" href="#h4.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h4></td>
+                                <td class="type-info">R @Html.DisplayFor(a => a.profit.grossMonthSales)</td>
+                            </tr>
+                            <tr>
+                                <td><h4 id="h4.-bootstrap-heading">@Html.DisplayNameFor(a => a.profit.pendingPayments)<a class="anchorjs-link" href="#h4.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h4></td>
+                                <td class="type-info">R @Html.DisplayFor(a => a.profit.pendingPayments)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>

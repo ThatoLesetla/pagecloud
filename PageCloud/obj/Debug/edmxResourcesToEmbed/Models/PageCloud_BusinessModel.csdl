@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PageCloudModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="notificationId" />
+    </Key>
+    <Property Name="notificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="notificationBody" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="notificationDate" Type="DateTime" Precision="3" />
+    <Property Name="userId" Type="Int32" />
+    <NavigationProperty Name="User" Relationship="PageCloudModel.FK_Notifications_Users" FromRole="Notification" ToRole="User" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityContainer Name="PageCloudEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Notifications" EntityType="Self.Notification" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Domains" EntityType="PageCloudModel.Domain" />
+    <EntitySet Name="Invoices" EntityType="PageCloudModel.Invoice" />
+    <AssociationSet Name="FK_Invoice_Domain" Association="PageCloudModel.FK_Invoice_Domain">
+      <End Role="Domain" EntitySet="Domains" />
+      <End Role="Invoice" EntitySet="Invoices" />
+    </AssociationSet>
+    <FunctionImport Name="SP_Insert_User">
+      <Parameter Name="userName" Mode="In" Type="String" />
+      <Parameter Name="userSurname" Mode="In" Type="String" />
+      <Parameter Name="userEmail" Mode="In" Type="String" />
+      <Parameter Name="userPassword" Mode="In" Type="String" />
+      <Parameter Name="registerDate" Mode="In" Type="DateTime" />
+      <Parameter Name="phone" Mode="In" Type="String" />
+      <Parameter Name="userAddress" Mode="In" Type="String" />
+      <Parameter Name="city" Mode="In" Type="String" />
+      <Parameter Name="postalCode" Mode="In" Type="String" />
+      <Parameter Name="idno" Mode="In" Type="String" />
+      <Parameter Name="gender" Mode="In" Type="String" />
+      <Parameter Name="userRole" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Users" EntityType="PageCloudModel.User" />
+    <AssociationSet Name="FK_Domain_Users" Association="PageCloudModel.FK_Domain_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Domain" EntitySet="Domains" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Notifications_Users" Association="PageCloudModel.FK_Notifications_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Notification" EntitySet="Notifications" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Domain">
+    <Key>
+      <PropertyRef Name="domainID" />
+    </Key>
+    <Property Name="domainName" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="userID" Type="Int32" />
+    <Property Name="registrationDate" Type="DateTime" Precision="3" />
+    <Property Name="paymentMethod" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="websiteStatus" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="domainID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Invoices" Relationship="PageCloudModel.FK_Invoice_Domain" FromRole="Domain" ToRole="Invoice" />
+    <Property Name="isDeleted" Type="Boolean" />
+    <NavigationProperty Name="User" Relationship="PageCloudModel.FK_Domain_Users" FromRole="Domain" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Invoice">
+    <Key>
+      <PropertyRef Name="taxInvoice" />
+    </Key>
+    <Property Name="taxInvoice" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="invoiceDate" Type="DateTime" Precision="3" />
+    <Property Name="dueDate" Type="DateTime" Precision="0" />
+    <Property Name="total" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="invoiceStatus" Type="Boolean" />
+    <Property Name="domainID" Type="Int32" />
+    <NavigationProperty Name="Domain" Relationship="PageCloudModel.FK_Invoice_Domain" FromRole="Invoice" ToRole="Domain" />
+  </EntityType>
+  <Association Name="FK_Invoice_Domain">
+    <End Type="PageCloudModel.Domain" Role="Domain" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PageCloudModel.Invoice" Role="Invoice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Domain">
+        <PropertyRef Name="domainID" />
+      </Principal>
+      <Dependent Role="Invoice">
+        <PropertyRef Name="domainID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="userID" />
+    </Key>
+    <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="userSurname" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="userEmail" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="userPassword" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="registerDate" Type="DateTime" Precision="3" />
+    <Property Name="phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="userAddress" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+    <Property Name="city" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="postalCode" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="idno" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+    <Property Name="gender" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+    <Property Name="userRole" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="isDeleted" Type="Boolean" />
+    <NavigationProperty Name="Domains" Relationship="PageCloudModel.FK_Domain_Users" FromRole="User" ToRole="Domain" />
+    <NavigationProperty Name="Notifications" Relationship="PageCloudModel.FK_Notifications_Users" FromRole="User" ToRole="Notification" />
+  </EntityType>
+  <Association Name="FK_Domain_Users">
+    <End Type="PageCloudModel.User" Role="User" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PageCloudModel.Domain" Role="Domain" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="userID" />
+      </Principal>
+      <Dependent Role="Domain">
+        <PropertyRef Name="userID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Notifications_Users">
+    <End Type="PageCloudModel.User" Role="User" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PageCloudModel.Notification" Role="Notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="userID" />
+      </Principal>
+      <Dependent Role="Notification">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

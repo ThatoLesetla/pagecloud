@@ -1,0 +1,74 @@
+﻿@model PageCloud.Models.Invoice
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="form-w3layouts">
+    <!-- page start-->
+    <!-- page start-->
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Details
+                </header>
+                <div class="panel-body">
+                    <div class="position-center">
+
+                        <div>
+                            <h4>Invoice</h4>
+                            <hr />
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.invoiceDate)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.invoiceDate)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.dueDate)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.dueDate)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.total)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.total)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.invoiceStatus)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.invoiceStatus)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.User.userName)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.User.userName)
+                                </dd>
+
+                            </dl>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
